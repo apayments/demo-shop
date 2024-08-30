@@ -8,6 +8,15 @@ declare global {
 		// interface PageState {}
 		// interface Platform {}
 	}
+	type Item = {
+		id: string;
+		title: string;
+		price: number;
+	};
+
+	type Amount = {
+		amount: number;
+	};
 }
 
 export {};
