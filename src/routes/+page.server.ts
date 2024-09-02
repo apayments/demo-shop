@@ -10,6 +10,8 @@ export const actions: Actions = {
 	checkout: async ({ request }) => {
 		const body = await request.formData();
 		const cart = Array.from(JSON.parse(body.get('cart')?.toString() || '[]')) as unknown as Item[];
+		const currency = body.get('currency');
+
 		const sum = cart.reduce((acc, item) => acc + item.price, 0);
 		const response = await fetch(SERVER_URL + '/api/v1/init-payment', {
 			method: 'POST',
@@ -18,7 +20,7 @@ export const actions: Actions = {
 			},
 			body: JSON.stringify({
 				amount: sum,
-				currency: 'USD',
+				currency,
 				successCallback: HOST + '/success',
 				failureCallback: HOST + '/failure'
 			})
