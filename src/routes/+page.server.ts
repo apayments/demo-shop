@@ -24,8 +24,8 @@ export const actions: Actions = {
 			body: JSON.stringify({
 				amount: sum,
 				currency,
-				successCallback: protocol + host + '/success',
-				failureCallback: protocol + host + '/failure'
+				successCallback: protocol + '://' + host + '/success',
+				failureCallback: protocol + '://' + host + '/failure'
 			})
 		});
 
