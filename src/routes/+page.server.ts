@@ -1,6 +1,6 @@
 import { error, redirect, type Actions } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
-import { HOST, SERVER_URL, SERVER_TOKEN } from '$env/static/private';
+import { SERVER_URL, SERVER_TOKEN } from '$env/static/private';
 
 export const load = (async () => {
 	return {};
@@ -12,6 +12,7 @@ export const actions: Actions = {
 		const cart = Array.from(JSON.parse(body.get('cart')?.toString() || '[]')) as unknown as Item[];
 		const currency = body.get('currency');
 
+		const host = request.headers.get('host');
 		const sum = cart.reduce((acc, item) => acc + item.price, 0);
 		const response = await fetch(SERVER_URL + '/api/v1/init-payment', {
 			method: 'POST',
@@ -21,8 +22,8 @@ export const actions: Actions = {
 			body: JSON.stringify({
 				amount: sum,
 				currency,
-				successCallback: HOST + '/success',
-				failureCallback: HOST + '/failure'
+				successCallback: host + '/success',
+				failureCallback: host + '/failure'
 			})
 		});
 
