@@ -11,6 +11,7 @@ export const actions: Actions = {
 		const body = await request.formData();
 		const cart = Array.from(JSON.parse(body.get('cart')?.toString() || '[]')) as unknown as Item[];
 		const currency = body.get('currency');
+		const email = body.get('email');
 
 		const host = request.headers.get('host');
 		const protocol = request.headers.get('x-forwarded-proto') || 'http';
@@ -21,6 +22,7 @@ export const actions: Actions = {
 				Authorization: `Bearer ${SERVER_TOKEN}`
 			},
 			body: JSON.stringify({
+				email,
 				amount: sum,
 				currency,
 				successCallback: protocol + '://' + host + '/success',
