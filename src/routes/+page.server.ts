@@ -14,7 +14,6 @@ export const actions: Actions = {
 
 		const host = request.headers.get('host');
 		const protocol = request.headers.get('x-forwarded-proto') || 'http';
-		console.log('host', host);
 		const sum = cart.reduce((acc, item) => acc + item.price, 0);
 		const response = await fetch(SERVER_URL + '/api/v1/init-payment', {
 			method: 'POST',
@@ -25,7 +24,8 @@ export const actions: Actions = {
 				amount: sum,
 				currency,
 				successCallback: protocol + '://' + host + '/success',
-				failureCallback: protocol + '://' + host + '/failure'
+				failureCallback: protocol + '://' + host + '/failure',
+				postbackUrl: protocol + '://' + host + '/api/v1/postback'
 			})
 		});
 
