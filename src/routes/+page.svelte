@@ -6,6 +6,7 @@
 	let cart = writable([] as (Item & Amount)[]);
 	let selectedCurrency = writable('USD');
 
+	let email = '';
 	const currencies = {
 		USD: { symbol: '$', rate: 1 },
 		EUR: { symbol: '€', rate: 0.85 },
@@ -45,10 +46,12 @@
 					$selectedCurrency
 				)}
 			</p>
+			<input type="email" bind:value={email} placeholder="Email" />
 			<form action="?/checkout" method="post">
+				<input type="hidden" name="email" value={email} />
 				<input type="hidden" name="currency" value={$selectedCurrency} />
 				<input type="hidden" name="cart" value={JSON.stringify($cart)} />
-				<button class="buy-button">Checkout</button>
+				<button disabled={email.length < 1} class="buy-button">Checkout</button>
 			</form>
 		{:else}
 			<p>Your cart is empty</p>
