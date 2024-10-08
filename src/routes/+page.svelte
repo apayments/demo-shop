@@ -6,6 +6,7 @@
 	let cart = writable([] as (Item & Amount)[]);
 	let selectedCurrency = writable('USD');
 
+	let isProd = writable(false);
 	let email = '';
 	const currencies = {
 		USD: { symbol: '$', rate: 1 },
@@ -51,19 +52,29 @@
 				<input type="hidden" name="email" value={email} />
 				<input type="hidden" name="currency" value={$selectedCurrency} />
 				<input type="hidden" name="cart" value={JSON.stringify($cart)} />
+				<input type="hidden" name="isProd" value={$isProd} />
 				<button disabled={email.length < 1} class="buy-button">Checkout</button>
 			</form>
 		{:else}
 			<p>Your cart is empty</p>
 		{/if}
 	</div>
-	<div class="currency-selector">
-		<label for="currency">Currency:</label>
-		<select id="currency" bind:value={$selectedCurrency}>
-			{#each Object.keys(currencies) as currency}
-				<option value={currency}>{currency}</option>
-			{/each}
-		</select>
+	<div>
+		<div class="selector-wrap">
+			<label for="currency">Currency:</label>
+			<select id="currency" bind:value={$selectedCurrency}>
+				{#each Object.keys(currencies) as currency}
+					<option value={currency}>{currency}</option>
+				{/each}
+			</select>
+		</div>
+		<div class="selector-wrap">
+			<label for="isProd">Token:</label>
+			<select id="isProd" bind:value={$isProd}>
+				<option value={false}>Test</option>
+				<option value={true}>Prod</option>
+			</select>
+		</div>
 	</div>
 </header>
 
