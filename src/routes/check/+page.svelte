@@ -4,7 +4,6 @@
 	const { status, amount, currency, paymentId } = data;
 </script>
 
-<h1>SUCCESSFUL PAYMENT!</h1>
 <p>Status: {status}</p>
 <p>Amount: {amount} {currency}</p>
 <p>Payment ID: {paymentId}</p>

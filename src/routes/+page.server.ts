@@ -10,11 +10,13 @@ export const load = (async () => {
 export const actions: Actions = {
 	checkout: async ({ request, url }) => {
 		const body = await request.formData();
-		const cart = Array.from(safeJSON(body.get('cart')?.toString(), [])) as Item[];
+		const cart = safeJSON(body.get('cart')!.toString(), []) as Item[];
 		const currency = body.get('currency');
 		const customerEmail = body.get('email');
 		const isProd = body.get('isProd');
 		const sum = cart.reduce((acc, item) => acc + item.price, 0);
+		const protocol = request.headers.get('x-forwarded-proto') || url.protocol;
+		const origin = `${protocol}://${url.host}`;
 		const response = await fetch(SERVER_URL + '/api/v1/init-payment', {
 			method: 'POST',
 			headers: {
@@ -24,9 +26,9 @@ export const actions: Actions = {
 				customerEmail,
 				amount: sum,
 				currency,
-				successCallback: url.origin + '/success',
-				failureCallback: url.origin + '/failure',
-				postbackUrl: url.origin + '/api/v1/postback'
+				successCallback: origin + '/success',
+				failureCallback: origin + '/failure',
+				postbackUrl: origin + '/api/v1/postback'
 			})
 		});
 
