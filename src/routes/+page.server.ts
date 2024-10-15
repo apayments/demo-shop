@@ -15,8 +15,11 @@ export const actions: Actions = {
 		const customerEmail = body.get('email');
 		const isProd = body.get('isProd');
 		const sum = cart.reduce((acc, item) => acc + item.price, 0);
-		const protocol = request.headers.get('x-forwarded-proto') || url.protocol;
-		const origin = `${protocol}://${url.host}`;
+		const protocol = request.headers.get('x-forwarded-proto')
+			? request.headers.get('x-forwarded-proto') + ':'
+			: url.protocol;
+		console.log(protocol);
+		const origin = `${protocol}//${url.host}`;
 		const response = await fetch(SERVER_URL + '/api/v1/init-payment', {
 			method: 'POST',
 			headers: {
