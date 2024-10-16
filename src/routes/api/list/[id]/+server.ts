@@ -4,7 +4,7 @@ import { getKV } from '$lib/kv';
 
 export const GET: RequestHandler = async ({ platform, params }: RequestEvent) => {
 	if (!platform) return json({ error: 'Platform is required' });
-
+	if (!params.id) return json({ error: 'id is required' });
 	const kv = getKV(platform);
 	return json(await kv.get(params.id));
 };
