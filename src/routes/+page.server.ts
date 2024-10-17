@@ -26,7 +26,8 @@ export const actions: Actions = {
 				currency,
 				successCallback: url.origin + '/success',
 				failureCallback: url.origin + '/failure',
-				postbackUrl: url.origin + '/api/v1/postback'
+				postbackUrl:
+					url.origin + '/api/v1/postback' + `?environment=${isProd === 'true' ? 'prod' : 'test'}`
 			})
 		});
 
