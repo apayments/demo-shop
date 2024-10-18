@@ -15,6 +15,7 @@ export const actions: Actions = {
 		const customerEmail = body.get('email');
 		const isProd = body.get('isProd');
 		const sum = cart.reduce((acc, item) => acc + item.price, 0);
+		const origin = 'https://stealord.apay.pp.ua';
 		const response = await fetch(SERVER_URL + '/api/v1/init-payment', {
 			method: 'POST',
 			headers: {
@@ -28,6 +29,10 @@ export const actions: Actions = {
 				failureCallback: url.origin + '/failure',
 				postbackUrl:
 					url.origin + '/api/v1/postback' + `?environment=${isProd === 'true' ? 'prod' : 'test'}`
+				// successCallback: origin + '/success',
+				// failureCallback: origin + '/failure',
+				// postbackUrl:
+				// 	origin + '/api/v1/postback' + `?environment=${isProd === 'true' ? 'prod' : 'test'}`
 			})
 		});
 

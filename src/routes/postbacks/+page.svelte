@@ -26,40 +26,48 @@
 	};
 </script>
 
-<h1>History of received postbacks</h1>
-<table>
-	<thead>
-		<tr>
-			<th>Payment ID</th>
-			<th>Received At</th>
-			<th>Status</th>
-			<th>Amount</th>
-			<th>Currency</th>
-			<th>Environment</th>
-			<th>/api/v1/payment-verify</th>
-		</tr>
-	</thead>
-	<tbody>
-		{#each data.list as item}
+<header>
+	<h1>History of Received Postbacks</h1>
+	<h1><a href="/">Main Page</a></h1>
+	<h1>
+		<a target="_blank" href="https://api.apay.pp.ua/docs/api#postback-to-shop">Postbacks Docs</a>
+	</h1>
+</header>
+<div class="overflow-auto">
+	<table>
+		<thead>
 			<tr>
-				<td>{item.paymentId}</td>
-				<td>{item.receivedAt}</td>
-				<td>{item.status}</td>
-				<td>{item.amount}</td>
-				<td>{item.currency}</td>
-				<td>{item.environment}</td>
-				<td>
-					<button
-						on:click={() =>
-							verifyPayment({ paymentId: item.paymentId, environment: item.environment })}
-					>
-						request
-					</button>
-				</td>
+				<th scope="col">Payment ID</th>
+				<th scope="col">Received At</th>
+				<th scope="col">Status</th>
+				<th scope="col">Amount</th>
+				<th scope="col">Currency</th>
+				<th scope="col">Environment</th>
+				<th scope="col">/api/v1/payment-verify</th>
 			</tr>
-		{/each}
-	</tbody>
-</table>
+		</thead>
+		<tbody>
+			{#each data.list as item}
+				<tr>
+					<td>{item.paymentId}</td>
+					<td>{item.receivedAt}</td>
+					<td>{item.status}</td>
+					<td>{item.amount}</td>
+					<td>{item.currency}</td>
+					<td>{item.environment}</td>
+					<td>
+						<button
+							on:click={() =>
+								verifyPayment({ paymentId: item.paymentId, environment: item.environment })}
+						>
+							request
+						</button>
+					</td>
+				</tr>
+			{/each}
+		</tbody>
+	</table>
+</div>
 {#if isModalOpen}
 	<dialog open={isModalOpen} on:click={() => (isModalOpen = false)}>
 		<article

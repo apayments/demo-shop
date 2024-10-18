@@ -27,7 +27,10 @@
 </script>
 
 <header>
-	<h1>Example Shop</h1>
+	<h1>
+		Example Shop |
+		<a href="/postbacks">Postbacks History</a>
+	</h1>
 	<div class="row">
 		<div class="selector-wrap">
 			<label for="currency">Currency:</label>

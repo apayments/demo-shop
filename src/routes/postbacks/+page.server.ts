@@ -15,6 +15,5 @@ export const load: PageServerLoad<OutputType> = async ({ fetch }) => {
 	const res = await fetch(`/api/list`);
 	const data: LoadedItem[] = await res.json();
 	data.sort((a, b) => a.receivedAt - b.receivedAt);
-	console.log(data);
 	return { list: data };
 };

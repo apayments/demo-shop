@@ -8,7 +8,6 @@ export const POST: RequestHandler = async ({ url, request, platform }) => {
 	const kv = getKV(platform);
 	payload.receivedAt = Math.floor(new Date().getTime() / 1000);
 	payload.environment = url.searchParams.get('environment');
-	console.log(payload);
 	await kv.put(`${payload.paymentId}-${payload.receivedAt}`, payload, { expirationTtl: 600 });
 	return new Response();
 };
