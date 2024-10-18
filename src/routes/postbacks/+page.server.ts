@@ -1,15 +1,20 @@
 import type { PageServerLoad } from './$types';
 
-type Item = {
-	name: string;
+type LoadedItem = {
+	status: string;
+	amount: number;
+	currency: string;
+	paymentId: string;
+	receivedAt: number;
+	environment: string;
 };
 type OutputType = {
-	list: Item[];
+	list: LoadedItem[];
 };
 export const load: PageServerLoad<OutputType> = async ({ fetch }) => {
 	const res = await fetch(`/api/list`);
-
-	const { keys } = await res.json();
-
-	return { list: keys };
+	const data: LoadedItem[] = await res.json();
+	data.sort((a, b) => a.receivedAt - b.receivedAt);
+	console.log(data);
+	return { list: data };
 };

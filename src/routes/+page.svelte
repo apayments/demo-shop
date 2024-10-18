@@ -28,38 +28,7 @@
 
 <header>
 	<h1>Example Shop</h1>
-	<div class="cart">
-		<h2>Cart</h2>
-		{#if $cart.length > 0}
-			<ol>
-				{#each $cart as { title, amount, price }}
-					<li>
-						{title} x {amount} - {currencies[$selectedCurrency as Currency].symbol}{convertPrice(
-							price * amount,
-							$selectedCurrency
-						)}
-					</li>
-				{/each}
-			</ol>
-			<p class="total">
-				Total: {currencies[$selectedCurrency as Currency].symbol}{convertPrice(
-					totalPrice,
-					$selectedCurrency
-				)}
-			</p>
-			<input type="email" bind:value={email} placeholder="Email" />
-			<form action="?/checkout" method="post">
-				<input type="hidden" name="email" value={email} />
-				<input type="hidden" name="currency" value={$selectedCurrency} />
-				<input type="hidden" name="cart" value={JSON.stringify($cart)} />
-				<input type="hidden" name="isProd" value={$isProd} />
-				<button disabled={email.length < 1} class="buy-button">Checkout</button>
-			</form>
-		{:else}
-			<p>Your cart is empty</p>
-		{/if}
-	</div>
-	<div>
+	<div class="row">
 		<div class="selector-wrap">
 			<label for="currency">Currency:</label>
 			<select id="currency" bind:value={$selectedCurrency}>
@@ -88,5 +57,36 @@
 				onAdd={addToCart}
 			/>
 		{/each}
+	</div>
+	<div class="cart">
+		<h2>Cart</h2>
+		{#if $cart.length > 0}
+			<ol>
+				{#each $cart as { title, amount, price }}
+					<li>
+						{title} x {amount} - {currencies[$selectedCurrency as Currency].symbol}{convertPrice(
+							price * amount,
+							$selectedCurrency
+						)}
+					</li>
+				{/each}
+			</ol>
+			<p class="total">
+				Total: {currencies[$selectedCurrency as Currency].symbol}{convertPrice(
+					totalPrice,
+					$selectedCurrency
+				)}
+			</p>
+			<form action="?/checkout" method="post">
+				<input type="email" bind:value={email} name="email" placeholder="Email" />
+				<!-- <input type="hidden" name="email" value={email} /> -->
+				<input type="hidden" name="currency" value={$selectedCurrency} />
+				<input type="hidden" name="cart" value={JSON.stringify($cart)} />
+				<input type="hidden" name="isProd" value={$isProd} />
+				<button disabled={email.length < 1} class="buy-button">Checkout</button>
+			</form>
+		{:else}
+			<p>Your cart is empty</p>
+		{/if}
 	</div>
 </main>
