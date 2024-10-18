@@ -11,8 +11,8 @@
 		{@render children()}
 	</div>
 	<footer id="footer">
-		<a target="_blank" href="https://github.com">
-			<b class="github">GitHub</b>
+		<a class="footer-link" target="_blank" href="https://github.com/apayments/demo-shop">
+			<b>GitHub</b>
 			<img src={img} alt="github logo" class="github" />
 		</a>
 	</footer>

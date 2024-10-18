@@ -26,7 +26,7 @@
 	};
 </script>
 
-<header>
+<header class="header">
 	<h1>History of Received Postbacks</h1>
 	<h1><a href="/">Main Page</a></h1>
 	<h1>

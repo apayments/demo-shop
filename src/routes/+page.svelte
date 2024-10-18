@@ -26,10 +26,13 @@
 	}
 </script>
 
-<header>
+<header class="header">
+	<h1>Example Shop</h1>
 	<h1>
-		Example Shop |
 		<a href="/postbacks">Postbacks History</a>
+	</h1>
+	<h1>
+		<a target="_blank" href="https://api.apay.pp.ua/docs/api">Api Docs</a>
 	</h1>
 	<div class="row">
 		<div class="selector-wrap">

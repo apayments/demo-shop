@@ -141,8 +141,16 @@ h3 {
 	height: 2.5rem;
 }
 
+.footer-link {
+	display: flex;
+	width: fit-content;
+	align-items: center;
+	color: #eee;
+	gap: 0.5em;
+	font-size: 0.85em;
+}
 @media (max-width: 1031px) {
-	header {
+	.header {
 		flex-direction: column !important;
 	}
 }
