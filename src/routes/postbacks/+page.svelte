@@ -6,17 +6,18 @@
 	let loading = false;
 	const verifyPayment = async ({
 		paymentId,
-		environment
+		environment,
+		payway
 	}: {
 		paymentId: string;
 		environment: string;
+		payway: string;
 	}) => {
 		try {
 			loading = true;
 			isModalOpen = true;
-			const res = await fetch(`/api/list/${paymentId}?environment=${environment}`);
+			const res = await fetch(`/api/list/${paymentId}?environment=${environment}&payway=${payway}`);
 			const data = await res.json();
-
 			modalData = data;
 		} catch {
 			modalData = { error: 'Something went wrong' };
@@ -43,6 +44,7 @@
 				<th scope="col">Amount</th>
 				<th scope="col">Currency</th>
 				<th scope="col">Environment</th>
+				<th scope="col">Payway</th>
 				<th scope="col">/api/v1/payment-verify</th>
 			</tr>
 		</thead>
@@ -55,10 +57,15 @@
 					<td>{item.amount}</td>
 					<td>{item.currency}</td>
 					<td>{item.environment}</td>
+					<td>{item.payway}</td>
 					<td>
 						<button
 							on:click={() =>
-								verifyPayment({ paymentId: item.paymentId, environment: item.environment })}
+								verifyPayment({
+									paymentId: item.paymentId,
+									environment: item.environment,
+									payway: item.payway
+								})}
 						>
 							request
 						</button>

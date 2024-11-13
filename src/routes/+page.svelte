@@ -7,11 +7,11 @@
 	let selectedCurrency = writable('USD');
 
 	let isProd = writable(false);
+	let payway = writable('payway1');
 	let email = '';
 	const currencies = {
 		USD: { symbol: '$', rate: 1 },
-		EUR: { symbol: '€', rate: 0.85 },
-		GBP: { symbol: '£', rate: 0.73 }
+		EUR: { symbol: '€', rate: 0.85 }
 	} as const;
 	type Currency = keyof typeof currencies;
 
@@ -48,6 +48,13 @@
 			<select id="isProd" bind:value={$isProd}>
 				<option value={false}>Test</option>
 				<option value={true}>Prod</option>
+			</select>
+		</div>
+		<div class="selector-wrap">
+			<label for="payway">Token:</label>
+			<select id="payway" bind:value={$payway}>
+				<option value={'payway1'}>payway1</option>
+				<option value={'payway2'}>payway2</option>
 			</select>
 		</div>
 	</div>
@@ -89,6 +96,7 @@
 				<input type="hidden" name="currency" value={$selectedCurrency} />
 				<input type="hidden" name="cart" value={JSON.stringify($cart)} />
 				<input type="hidden" name="isProd" value={$isProd} />
+				<input type="hidden" name="payway" value={$payway} />
 				<button disabled={email.length < 1} class="buy-button">Checkout</button>
 			</form>
 		{:else}
