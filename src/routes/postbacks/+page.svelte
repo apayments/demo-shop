@@ -87,7 +87,7 @@
 			{:else}
 				<header>
 					<p>
-						<strong>Payment "{modalData._id}" details.</strong>
+						<strong>Payment "{modalData.id}" details.</strong>
 					</p>
 					<button aria-label="Close" rel="prev" on:click={() => (isModalOpen = false)}></button>
 				</header>
