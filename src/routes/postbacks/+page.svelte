@@ -1,29 +1,23 @@
 <script lang="ts">
-	export let data;
+	import { enhance } from '$app/forms';
+	import type { ActionData } from './$types.js';
 
+	export let data;
 	let modalData: any = null;
 	let isModalOpen = false;
 	let loading = false;
-	const verifyPayment = async ({
-		paymentId,
-		environment,
-		payway
-	}: {
-		paymentId: string;
-		environment: string;
-		payway: string;
-	}) => {
-		try {
-			loading = true;
-			isModalOpen = true;
-			const res = await fetch(`/api/list/${paymentId}?environment=${environment}&payway=${payway}`);
-			const data = await res.json();
-			modalData = data;
-		} catch {
-			modalData = { error: 'Something went wrong' };
-		} finally {
-			loading = false;
-		}
+
+	const handleVerifyPayment = () => {
+		loading = true;
+		isModalOpen = true;
+		//@ts-expect-error any
+		return async ({ result }) => {
+			try {
+				modalData = result.data;
+			} finally {
+				loading = false;
+			}
+		};
 	};
 </script>
 
@@ -34,6 +28,7 @@
 		<a target="_blank" href="https://api.apay.pp.ua/docs/api#postback-to-shop">Postbacks Docs</a>
 	</h1>
 </header>
+
 <div class="overflow-auto">
 	<table>
 		<thead>
@@ -59,22 +54,19 @@
 					<td>{item.environment}</td>
 					<td>{item.payway}</td>
 					<td>
-						<button
-							on:click={() =>
-								verifyPayment({
-									paymentId: item.paymentId,
-									environment: item.environment,
-									payway: item.payway
-								})}
-						>
-							request
-						</button>
+						<form method="POST" action="?/verifyPayment" use:enhance={handleVerifyPayment}>
+							<input type="hidden" name="paymentId" value={item.paymentId} />
+							<input type="hidden" name="environment" value={item.environment} />
+							<input type="hidden" name="payway" value={item.payway} />
+							<button type="submit">request</button>
+						</form>
 					</td>
 				</tr>
 			{/each}
 		</tbody>
 	</table>
 </div>
+
 {#if isModalOpen}
 	<dialog open={isModalOpen} on:click={() => (isModalOpen = false)}>
 		<article
@@ -87,7 +79,7 @@
 			{:else}
 				<header>
 					<p>
-						<strong>Payment "{modalData.id}" details.</strong>
+						<strong>Payment "{modalData.paymentId}" details.</strong>
 					</p>
 					<button aria-label="Close" rel="prev" on:click={() => (isModalOpen = false)}></button>
 				</header>

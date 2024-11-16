@@ -1,3 +1,4 @@
+import type { Actions } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 
 type LoadedItem = {
@@ -18,4 +19,17 @@ export const load: PageServerLoad<OutputType> = async ({ fetch, setHeaders }) =>
 	const data: LoadedItem[] = await res.json();
 	data.sort((a, b) => a.receivedAt - b.receivedAt);
 	return { list: data };
+};
+
+export const actions: Actions = {
+	verifyPayment: async ({ request, fetch }) => {
+		const formData = await request.formData();
+		const paymentId = formData.get('paymentId') as string;
+		const environment = formData.get('environment') as string;
+		const payway = formData.get('payway') as string;
+
+		const res = await fetch(`/api/list/${paymentId}?environment=${environment}&payway=${payway}`);
+		const data = await res.json();
+		return data;
+	}
 };
