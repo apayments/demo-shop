@@ -44,7 +44,7 @@
 			</select>
 		</div>
 		<div class="selector-wrap">
-			<label for="isProd">Token:</label>
+			<label for="isProd">Env:</label>
 			<select id="isProd" bind:value={$isProd}>
 				<option value={false}>Test</option>
 				<option value={true}>Prod</option>
