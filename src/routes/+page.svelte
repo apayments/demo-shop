@@ -6,7 +6,7 @@
 	let cart = writable([] as (Item & Amount)[]);
 	let selectedCurrency = writable('USD');
 
-	let isProd = writable(false);
+	let isProd = writable(true);
 	let payway = writable('payway1');
 	let email = '';
 	const currencies = {
