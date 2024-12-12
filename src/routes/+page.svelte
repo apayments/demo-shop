@@ -55,6 +55,7 @@
 			<select id="payway" bind:value={$payway}>
 				<option value={'payway1'}>payway1</option>
 				<option value={'payway2'}>payway2</option>
+				<option value={'payway3'}>payway3</option>
 			</select>
 		</div>
 	</div>
@@ -77,18 +78,12 @@
 			<ol>
 				{#each $cart as { title, amount, price }}
 					<li>
-						{title} x {amount} - {currencies[$selectedCurrency as Currency].symbol}{convertPrice(
-							price * amount,
-							$selectedCurrency
-						)}
+						{title} x {amount} - {currencies[$selectedCurrency as Currency].symbol}{price}
 					</li>
 				{/each}
 			</ol>
 			<p class="total">
-				Total: {currencies[$selectedCurrency as Currency].symbol}{convertPrice(
-					totalPrice,
-					$selectedCurrency
-				)}
+				Total: {currencies[$selectedCurrency as Currency].symbol}{totalPrice}
 			</p>
 			<form action="?/checkout" method="post">
 				<input type="email" bind:value={email} name="email" placeholder="Email" />
