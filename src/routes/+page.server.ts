@@ -8,7 +8,7 @@ export const load = (async () => {
 }) satisfies PageServerLoad;
 
 export const actions: Actions = {
-	checkout: async ({ request, url }) => {
+	checkout: async ({ request, url, getClientAddress }) => {
 		const body = await request.formData();
 		const cart = safeJSON(body.get('cart')!.toString(), []) as Item[];
 		const currency = body.get('currency');
@@ -27,6 +27,10 @@ export const actions: Actions = {
 				customerEmail,
 				amount: sum,
 				currency,
+				customerIp:
+					request.headers.get('cf-connecting-ip') ||
+					request.headers.get('fastly-client-ip') ||
+					getClientAddress(),
 				successCallback: url.origin + '/success',
 				failureCallback: url.origin + '/failure',
 				postbackUrl: url.origin + '/api/v1/postback'
