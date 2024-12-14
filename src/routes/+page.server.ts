@@ -21,7 +21,9 @@ export const actions: Actions = {
 		const response = await fetch(SERVER_URL + '/api/v1/init-payment', {
 			method: 'POST',
 			headers: {
-				Authorization: `Bearer ${token}`
+				Authorization: `Bearer ${token}`,
+				'Content-Type': 'application/json',
+				Accept: 'application/json'
 			},
 			body: JSON.stringify({
 				customerEmail,
