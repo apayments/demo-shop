@@ -39,10 +39,14 @@ export const actions: Actions = {
 			})
 		});
 
+		const resp = await response.text();
+
+		console.log(resp);
+
 		if (response.ok) {
-			return redirect(301, (await response.json()).paymentLink);
+			return redirect(301, (JSON.parse(resp)).paymentLink);
 		}
 
-		return error(500, await response.text());
+		return error(500, resp);
 	}
 };
