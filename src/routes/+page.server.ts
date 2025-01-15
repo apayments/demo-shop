@@ -29,10 +29,7 @@ export const actions: Actions = {
 				customerEmail,
 				amount: sum,
 				currency,
-				customerIp:
-					request.headers.get('cf-connecting-ip') ||
-					request.headers.get('fastly-client-ip') ||
-					getClientAddress(),
+				customerIp: getClientAddress(),
 				successCallback: url.origin + '/success',
 				failureCallback: url.origin + '/failure',
 				postbackUrl: url.origin + '/api/v1/postback'
