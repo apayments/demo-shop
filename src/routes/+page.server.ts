@@ -10,6 +10,7 @@ export const load = (async () => {
 export const actions: Actions = {
 	checkout: async ({ request, url, getClientAddress }) => {
 		const body = await request.formData();
+		const ip = getClientAddress();
 		const cart = safeJSON(body.get('cart')!.toString(), []) as Item[];
 		const currency = body.get('currency');
 		const customerEmail = body.get('email');
@@ -29,7 +30,7 @@ export const actions: Actions = {
 				customerEmail,
 				amount: sum,
 				currency,
-				customerIp: getClientAddress(),
+				customerIp: ip,
 				successCallback: url.origin + '/success',
 				failureCallback: url.origin + '/failure',
 				postbackUrl: url.origin + '/api/v1/postback'
@@ -44,6 +45,14 @@ export const actions: Actions = {
 			return redirect(301, (JSON.parse(resp)).paymentLink);
 		}
 
-		return error(500, resp);
+		return error(500, resp+":"+JSON.stringify({
+			customerEmail,
+			amount: sum,
+			currency,
+			customerIp: ip,
+			successCallback: url.origin + '/success',
+			failureCallback: url.origin + '/failure',
+			postbackUrl: url.origin + '/api/v1/postback'
+		}));
 	}
 };
