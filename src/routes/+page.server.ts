@@ -33,7 +33,8 @@ export const actions: Actions = {
 				customerIp: ip,
 				successCallback: url.origin + '/success',
 				failureCallback: url.origin + '/failure',
-				postbackUrl: url.origin + '/api/v1/postback'
+				postbackUrl: url.origin + '/api/v1/postback',
+				products: cart.map(item => item.id)
 			})
 		});
 
