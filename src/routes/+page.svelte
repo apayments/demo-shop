@@ -9,6 +9,10 @@
 	let isProd = writable(true);
 	let payway = writable('payway1');
 	let email = '';
+	let displayedItems = writable(items as Item[]);
+	let isLoading = writable(false);
+	let error = writable<string | null>(null);
+
 	const currencies = {
 		USD: { symbol: '$', rate: 1 },
 		EUR: { symbol: '€', rate: 0.85 }
@@ -23,6 +27,59 @@
 
 	function addToCart(item: Item) {
 		cart.update((items) => [...items, { ...item, amount: 1 }]);
+	}
+
+	async function loadKonnektiveProducts() {
+		console.log('loadKonnektiveProducts called, payway:', $payway);
+
+		if ($payway !== 'payway6') {
+			displayedItems.set(items);
+			return;
+		}
+
+		console.log('Loading products from API...');
+		isLoading.set(true);
+		error.set(null);
+
+		try {
+			const environment = $isProd ? 'prod' : 'test';
+			const url = `/api/v1/konnektive/products?payway=payway6&environment=${environment}`;
+			console.log('Fetching from:', url);
+
+			const response = await fetch(url);
+
+			console.log('Response status:', response.status);
+
+			if (!response.ok) {
+				const errorText = await response.text();
+				console.error('Response error:', errorText);
+				throw new Error(`Failed to load products: ${response.status} ${errorText}`);
+			}
+
+			const responseData = await response.json();
+
+			if (responseData.products && responseData.products.data) {
+				const konnektiveProducts = responseData.products.data;
+				const mappedProducts: Item[] = konnektiveProducts.map((product: any) => ({
+					id: String(product.productId || product.clientProductId || ''),
+					title: product.productName || 'Unknown Product',
+					price: product.price || 0
+				}));
+				displayedItems.set(mappedProducts);
+			} else {
+				throw new Error('Invalid response format: products.data not found');
+			}
+		} catch (e) {
+			console.error('Error loading products:', e);
+			error.set(e instanceof Error ? e.message : 'Unknown error');
+			displayedItems.set(items);
+		} finally {
+			isLoading.set(false);
+		}
+	}
+
+	$: if ($payway !== undefined && $isProd !== undefined) {
+		loadKonnektiveProducts();
 	}
 </script>
 
@@ -58,14 +115,20 @@
 				<option value={'payway3'}>payway3</option>
 				<option value={'payway4'}>payway4</option>
 				<option value={'payway5'}>payway5</option>
+				<option value={'payway6'}>payway6</option>
 			</select>
 		</div>
 	</div>
 </header>
 
 <main>
+	{#if $isLoading}
+		<p>Loading products...</p>
+	{:else if $error}
+		<p class="error">Error: {$error}</p>
+	{/if}
 	<div class="item-grid">
-		{#each items as item}
+		{#each $displayedItems as item}
 			<ItemComponent
 				{...item}
 				price={convertPrice(item.price, $selectedCurrency)}
