@@ -5,12 +5,14 @@ import {
 	DEV_TOKEN_PAYWAY4,
 	DEV_TOKEN_PAYWAY5,
 	DEV_TOKEN_PAYWAY6,
+	DEV_TOKEN_PAYWAY7,
 	PROD_TOKEN_PAYWAY1,
 	PROD_TOKEN_PAYWAY2,
 	PROD_TOKEN_PAYWAY3,
 	PROD_TOKEN_PAYWAY4,
 	PROD_TOKEN_PAYWAY5,
-	PROD_TOKEN_PAYWAY6
+	PROD_TOKEN_PAYWAY6,
+	PROD_TOKEN_PAYWAY7
 } from '$env/static/private';
 
 export function safeJSON(val: string, fallback: unknown): unknown {
@@ -50,5 +52,9 @@ export const tokenMapping = {
 	payway6: {
 		prod: PROD_TOKEN_PAYWAY6,
 		test: DEV_TOKEN_PAYWAY6
+	},
+	payway7: {
+		prod: PROD_TOKEN_PAYWAY7,
+		test: DEV_TOKEN_PAYWAY7
 	}
 };
