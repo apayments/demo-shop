@@ -61,9 +61,9 @@
 			if (responseData.products && responseData.products.data) {
 				const konnektiveProducts = responseData.products.data;
 				const mappedProducts: Item[] = konnektiveProducts.map((product: any) => ({
-					id: String(product.productId || product.clientProductId || ''),
+					id: String(product.productId || ''),
 					title: product.productName || 'Unknown Product',
-					price: product.price || 0
+					price: product.productCost || 0
 				}));
 				displayedItems.set(mappedProducts);
 			} else {
