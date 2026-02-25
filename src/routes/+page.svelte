@@ -15,7 +15,8 @@
 
 	const currencies = {
 		USD: { symbol: '$', rate: 1 },
-		EUR: { symbol: '€', rate: 0.85 }
+		EUR: { symbol: '€', rate: 0.85 },
+		TRY: { symbol: '₺', rate: 1000 }
 	} as const;
 	type Currency = keyof typeof currencies;
 
@@ -64,6 +65,7 @@
 				<option value={'payway5'}>payway5</option>
 				<option value={'payway6'}>payway6</option>
 				<option value={'payway7'}>payway7</option>
+				<option value={'payway8'}>payway8</option>
 			</select>
 		</div>
 	</div>
