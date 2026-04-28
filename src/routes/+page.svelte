@@ -66,6 +66,7 @@
 				<option value={'payway6'}>payway6</option>
 				<option value={'payway7'}>payway7</option>
 				<option value={'payway8'}>payway8</option>
+				<option value={'payway12'}>payway12</option>
 			</select>
 		</div>
 	</div>
