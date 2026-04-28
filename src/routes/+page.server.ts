@@ -19,7 +19,10 @@ export const actions: Actions = {
 		const payway = body.get('payway') as keyof typeof tokenMapping;
 		const environment = isProd === 'true' ? 'prod' : 'test';
 		const token = tokenMapping[payway][environment];
-		const response = await fetch(SERVER_URL + '/api/v1/init-payment', {
+		const initPaymentPath = payway === 'payway12' ? '/api/v2/payments/init' : '/api/v1/init-payment';
+		const postbackUrl = payway === 'payway12' ? '/api/v2/payments/postback' : '/api/v1/postback';
+
+		const response = await fetch(SERVER_URL + initPaymentPath, {
 			method: 'POST',
 			headers: {
 				Authorization: `Bearer ${token}`,
@@ -33,8 +36,7 @@ export const actions: Actions = {
 				customerIp: ip,
 				successCallback: url.origin + '/success',
 				failureCallback: url.origin + '/failure',
-				postbackUrl: url.origin + '/api/v1/postback',
-				products: cart.map(item => item.id)
+				postbackUrl: url.origin + postbackUrl
 			})
 		});
 
