@@ -66,7 +66,7 @@ export const tokenMapping = {
 		test: DEV_TOKEN_PAYWAY8
 	},
 	payway12: {
-		prod: process.env.PROD_TOKEN_PAYWAY12,
-		test: process.env.DEV_TOKEN_PAYWAY12
+		prod: PROD_TOKEN_PAYWAY12,
+		test: DEV_TOKEN_PAYWAY12
 	}
 };
