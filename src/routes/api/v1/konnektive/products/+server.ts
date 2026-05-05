@@ -21,18 +21,20 @@ export const GET: RequestHandler = async ({ url }: RequestEvent) => {
 
 	const response = await fetch(SERVER_URL + '/api/v1/konnektive/products', {
 		headers: {
-			'Authorization': `Bearer ${token}`
+			Authorization: `Bearer ${token}`
 		}
 	});
 
 	if (!response.ok) {
 		const errorText = await response.text();
 		console.error('Response error:', errorText);
-		return json({ error: 'Failed to fetch products', details: errorText }, { status: response.status });
+		return json(
+			{ error: 'Failed to fetch products', details: errorText },
+			{ status: response.status }
+		);
 	}
 
 	const products = await response.json();
 	console.log('Products received:', products);
 	return json(products);
 };
-

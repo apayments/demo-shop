@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { writable, derived } from 'svelte/store';
+	import { writable } from 'svelte/store';
 	import ItemComponent from '$lib/components/Item.svelte';
 	import items from './items.json';
 
@@ -9,7 +9,10 @@
 	let isProd = writable(true);
 	let payway = writable('payway1');
 	let email = '';
-	let displayedItems = writable(items as Item[]);
+	let displayedItems = writable([
+		...items,
+		{ id: 'custom', title: 'Custom Amount', price: 1, isCustom: true }
+	] as (Item & { isCustom?: boolean })[]);
 	let isLoading = writable(false);
 	let error = writable<string | null>(null);
 
@@ -82,8 +85,9 @@
 		{#each $displayedItems as item}
 			<ItemComponent
 				{...item}
-				price={convertPrice(item.price, $selectedCurrency)}
+				price={item.isCustom ? item.price : convertPrice(item.price, $selectedCurrency)}
 				currency={currencies[$selectedCurrency as Currency].symbol}
+				isCustom={item.isCustom}
 				onAdd={addToCart}
 			/>
 		{/each}

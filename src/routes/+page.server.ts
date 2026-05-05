@@ -19,7 +19,8 @@ export const actions: Actions = {
 		const payway = body.get('payway') as keyof typeof tokenMapping;
 		const environment = isProd === 'true' ? 'prod' : 'test';
 		const token = tokenMapping[payway][environment];
-		const initPaymentPath = payway === 'payway12' ? '/api/v2/payments/init' : '/api/v1/init-payment';
+		const initPaymentPath =
+			payway === 'payway12' ? '/api/v2/payments/init' : '/api/v1/init-payment';
 		const postbackUrl = payway === 'payway12' ? '/api/v2/payments/postback' : '/api/v1/postback';
 
 		const response = await fetch(SERVER_URL + initPaymentPath, {
@@ -45,17 +46,22 @@ export const actions: Actions = {
 		console.log(resp);
 
 		if (response.ok) {
-			return redirect(301, (JSON.parse(resp)).paymentLink);
+			return redirect(301, JSON.parse(resp).paymentLink);
 		}
 
-		return error(500, resp+":"+JSON.stringify({
-			customerEmail,
-			amount: sum,
-			currency,
-			customerIp: ip,
-			successCallback: url.origin + '/success',
-			failureCallback: url.origin + '/failure',
-			postbackUrl: url.origin + '/api/v1/postback'
-		}));
+		return error(
+			500,
+			resp +
+				':' +
+				JSON.stringify({
+					customerEmail,
+					amount: sum,
+					currency,
+					customerIp: ip,
+					successCallback: url.origin + '/success',
+					failureCallback: url.origin + '/failure',
+					postbackUrl: url.origin + '/api/v1/postback'
+				})
+		);
 	}
 };
