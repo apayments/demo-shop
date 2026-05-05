@@ -1,19 +1,17 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import type { ActionData } from './$types.js';
 
 	export let data;
-	let modalData: any = null;
+	let modalData: Record<string, unknown> | null = null;
 	let isModalOpen = false;
 	let loading = false;
 
 	const handleVerifyPayment = () => {
 		loading = true;
 		isModalOpen = true;
-		//@ts-expect-error any
-		return async ({ result }) => {
+		return async ({ result }: { result: { type: string; data?: Record<string, unknown> } }) => {
 			try {
-				modalData = result.data;
+				modalData = result.type === 'success' ? (result.data ?? null) : null;
 			} finally {
 				loading = false;
 			}
@@ -68,18 +66,14 @@
 </div>
 
 {#if isModalOpen}
-	<dialog open={isModalOpen} on:click={() => (isModalOpen = false)}>
-		<article
-			on:click={(e) => {
-				e.stopPropagation();
-			}}
-		>
+	<dialog open={isModalOpen}>
+		<article>
 			{#if loading}
-				<progress />
+				<progress></progress>
 			{:else}
 				<header>
 					<p>
-						<strong>Payment "{modalData.paymentId}" details.</strong>
+						<strong>Payment "{String(modalData.paymentId ?? '')}" details.</strong>
 					</p>
 					<button aria-label="Close" rel="prev" on:click={() => (isModalOpen = false)}></button>
 				</header>
